@@ -164,8 +164,7 @@ public class VelocityConfiguration extends AnnotatedConfig implements ProxyConfi
     }
 
     if (servers.getServers().isEmpty()) {
-      logger.error("You have no servers configured. :(");
-      valid = false;
+      logger.info("You have no servers configured. :(");
     } else {
       if (servers.getAttemptConnectionOrder().isEmpty()) {
         logger.error("No fallback servers are configured!");
