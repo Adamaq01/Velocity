@@ -26,7 +26,7 @@ public final class PreConnectEvent {
         return registeredServer;
     }
 
-    public void setProvider(@Nullable RegisteredServer registeredServer) {
+    public void setServer(@Nullable RegisteredServer registeredServer) {
         this.registeredServer = registeredServer;
     }
 
