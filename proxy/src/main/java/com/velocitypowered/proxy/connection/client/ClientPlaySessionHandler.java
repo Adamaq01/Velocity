@@ -318,16 +318,16 @@ public class ClientPlaySessionHandler implements MinecraftSessionHandler {
             // Most notably, by having the client accept the join game packet, we can work around the need
             // to perform entity ID rewrites, eliminating potential issues from rewriting packets and
             // improving compatibility with mods.
-            if (player.getProtocolVersion().getProtocol() < ProtocolVersion.MINECRAFT_1_13.getProtocol()) {
-                player.getMinecraftConnection().delayedWrite(joinGame);
-                int tempDim = joinGame.getDimension() == 0 ? -1 : 0;
-                player.getMinecraftConnection().delayedWrite(
-                        new Respawn(tempDim, joinGame.getPartialHashedSeed(), joinGame.getDifficulty(),
-                                joinGame.getGamemode(), joinGame.getLevelType()));
-                player.getMinecraftConnection().delayedWrite(
-                        new Respawn(joinGame.getDimension(), joinGame.getPartialHashedSeed(),
-                                joinGame.getDifficulty(), joinGame.getGamemode(), joinGame.getLevelType()));
-            }
+            // if (player.getProtocolVersion().getProtocol() < ProtocolVersion.MINECRAFT_1_13.getProtocol()) {
+            player.getMinecraftConnection().delayedWrite(joinGame);
+            int tempDim = joinGame.getDimension() == 0 ? -1 : 0;
+            player.getMinecraftConnection().delayedWrite(
+                    new Respawn(tempDim, joinGame.getPartialHashedSeed(), joinGame.getDifficulty(),
+                            joinGame.getGamemode(), joinGame.getLevelType()));
+            player.getMinecraftConnection().delayedWrite(
+                    new Respawn(joinGame.getDimension(), joinGame.getPartialHashedSeed(),
+                            joinGame.getDifficulty(), joinGame.getGamemode(), joinGame.getLevelType()));
+            // }
         }
 
         // Remove previous boss bars. These don't get cleared when sending JoinGame, thus the need to
