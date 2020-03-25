@@ -19,6 +19,8 @@ import com.velocitypowered.proxy.util.VelocityMessages;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.kyori.text.Component;
+import net.kyori.text.TextComponent;
+import net.kyori.text.format.TextColor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
@@ -237,6 +239,10 @@ public class LoginSessionHandler implements MinecraftSessionHandler {
     private void preConnect(ConnectedPlayer player) {
         Optional<RegisteredServer> toTry = player.getNextServerToTry();
         server.getEventManager().fire(new PreConnectEvent(player, toTry.orElse(null))).thenAcceptAsync(preConnectEvent -> {
+            if (!preConnectEvent.getResult().isAllowed()) {
+                player.disconnect(preConnectEvent.getResult().getReason().orElse(TextComponent.of("Connection not allowed !", TextColor.RED)));
+                return;
+            }
             if (preConnectEvent.getServer() == null) {
                 player.disconnect(VelocityMessages.NO_AVAILABLE_SERVERS);
                 return;
